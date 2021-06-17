@@ -1,0 +1,24 @@
+{
+  "name": "blackboard-front",
+  "version": "1.0.0",
+  "description": "A real-time blackboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-cli serve --mode development --open --port=8080"
+  },
+  "keywords": [],
+  "author": "cjgmj",
+  "license": "ISC",
+  "dependencies": {
+    "rxjs": "^7.1.0",
+    "webpack": "^5.39.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "devDependencies": {
+    "@types/rx": "^4.1.2",
+    "css-loader": "^5.2.6",
+    "ts-loader": "^9.2.3"
+  }
+}
