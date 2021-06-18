@@ -1,8 +1,8 @@
 import { fromEvent, Observable } from 'rxjs';
 import { takeUntil, distinctUntilKeyChanged, map } from 'rxjs/operators';
 
-import { blackboard } from './canvas-utils';
-import { MouseCoordenates } from './models/mouse-coordenates';
+import { blackboard } from '../canvas/canvas';
+import { MouseCoordenates } from '../models/mouse-coordenates';
 
 const mousedown$: Observable<MouseEvent> = fromEvent<MouseEvent>(
   blackboard,

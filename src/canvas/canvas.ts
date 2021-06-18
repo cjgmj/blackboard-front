@@ -1,5 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { generateColor } from './color-utils';
+
+const id = uuidv4();
+const color = generateColor();
+
 const divContent: HTMLDivElement = document.getElementById(
   'content'
 ) as HTMLDivElement;
@@ -7,7 +12,7 @@ const divContent: HTMLDivElement = document.getElementById(
 const blackboard: HTMLCanvasElement = document.createElement(
   'canvas'
 ) as HTMLCanvasElement;
-blackboard.setAttribute('id', `blackboard-${uuidv4()}`);
+blackboard.setAttribute('id', `blackboard-${id}`);
 blackboard.setAttribute('class', 'full-height');
 
 divContent.appendChild(blackboard);
@@ -20,22 +25,10 @@ const initCanvas = (): void => {
 
   context!.lineCap = 'round';
   context!.lineJoin = 'round';
-  context!.strokeStyle = generateColor();
+  context!.strokeStyle = color;
   context!.lineWidth = 4;
 
   console.log(context!.strokeStyle);
-};
-
-const generateColor = (): string => {
-  return `#${generateHex()}${generateHex()}${generateHex()}`;
-};
-
-const generateHex = (): string => {
-  var hex = Number(Math.floor(Math.random() * 255)).toString(16);
-  if (hex.length < 2) {
-    hex = '0' + hex;
-  }
-  return hex;
 };
 
 const initialPoint = (x: number, y: number): void => {

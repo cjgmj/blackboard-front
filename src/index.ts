@@ -1,5 +1,5 @@
-import { initCanvas, initialPoint, drawLine } from './canvas-utils';
-import { mousedown$, obsmousemove$ } from './events-rx';
+import { initCanvas, initialPoint, drawLine } from './canvas/canvas';
+import { mousedown$, obsmousemove$ } from './rxjs/events-rx';
 
 initCanvas();
 
