@@ -1,10 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
-import { generateColor } from './color-utils';
-
-const id = uuidv4();
-const color = generateColor();
-
 const divContent: HTMLDivElement = document.getElementById(
   'content'
 ) as HTMLDivElement;
@@ -12,33 +5,39 @@ const divContent: HTMLDivElement = document.getElementById(
 const blackboard: HTMLCanvasElement = document.createElement(
   'canvas'
 ) as HTMLCanvasElement;
-blackboard.setAttribute('id', `blackboard-${id}`);
-blackboard.setAttribute('class', 'full-height');
-
 divContent.appendChild(blackboard);
 
-const context: CanvasRenderingContext2D | null = blackboard.getContext('2d');
+const context: CanvasRenderingContext2D = blackboard.getContext(
+  '2d'
+) as CanvasRenderingContext2D;
 
-const initCanvas = (): void => {
+const initCanvas = (id: string, color: string, lineWidth: number): void => {
+  setPropertiesCanvas(id);
+  setPropertiesContext(color, lineWidth);
+};
+
+const setPropertiesCanvas = (id: string) => {
+  blackboard.setAttribute('id', `blackboard-${id}`);
+  blackboard.setAttribute('class', 'full-height');
   blackboard.width = blackboard.clientWidth;
   blackboard.height = blackboard.clientHeight;
+};
 
-  context!.lineCap = 'round';
-  context!.lineJoin = 'round';
-  context!.strokeStyle = color;
-  context!.lineWidth = 4;
-
-  console.log(context!.strokeStyle);
+const setPropertiesContext = (color: string, lineWidth: number) => {
+  context.lineCap = 'round';
+  context.lineJoin = 'round';
+  context.strokeStyle = color;
+  context.lineWidth = lineWidth;
 };
 
 const initialPoint = (x: number, y: number): void => {
-  context!.beginPath();
-  context!.moveTo(x, y);
+  context.beginPath();
+  context.moveTo(x, y);
 };
 
 const drawLine = (x: number, y: number): void => {
-  context!.lineTo(x, y);
-  context!.stroke();
+  context.lineTo(x, y);
+  context.stroke();
 };
 
 export { blackboard, initCanvas, initialPoint, drawLine };
