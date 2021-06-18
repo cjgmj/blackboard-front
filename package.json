@@ -12,12 +12,14 @@
   "license": "ISC",
   "dependencies": {
     "rxjs": "^7.1.0",
+    "uuid": "^8.3.2",
     "webpack": "^5.39.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },
   "devDependencies": {
     "@types/rx": "^4.1.2",
+    "@types/uuid": "^8.3.0",
     "css-loader": "^5.2.6",
     "ts-loader": "^9.2.3"
   }
