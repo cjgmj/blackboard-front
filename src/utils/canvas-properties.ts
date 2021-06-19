@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { generateColor } from '../canvas/color-utils';
-import { CanvasInfo } from '../models/canvas-info';
+import { CanvasInfo } from '../types/canvas-info';
 
 const id = uuidv4();
 const color = generateColor();

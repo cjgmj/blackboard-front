@@ -1,6 +1,6 @@
 import openSocket, { Socket } from 'socket.io-client';
 import { initialPoint, drawLine } from '../canvas/canvas';
-import { CanvasInfo } from '../models/canvas-info';
+import { CanvasInfo } from '../types/canvas-info';
 import { id } from '../utils/canvas-properties';
 
 let socket: Socket;
