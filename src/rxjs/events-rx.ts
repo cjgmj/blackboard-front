@@ -4,21 +4,12 @@ import { takeUntil, distinctUntilKeyChanged, map } from 'rxjs/operators';
 import { blackboard } from '../canvas/canvas';
 import { MouseCoordenates } from '../models/mouse-coordenates';
 
-const mousedown$: Observable<MouseEvent> = fromEvent<MouseEvent>(
-  blackboard,
-  'mousedown'
-);
-const mousemove$: Observable<MouseEvent> = fromEvent<MouseEvent>(
-  blackboard,
-  'mousemove'
-);
-const mouseup$: Observable<MouseEvent> = fromEvent<MouseEvent>(
-  blackboard,
-  'mouseup'
-);
+const mousedown$ = fromEvent<MouseEvent>(blackboard, 'mousedown');
+const mousemove$ = fromEvent<MouseEvent>(blackboard, 'mousemove');
+const mouseup$ = fromEvent<MouseEvent>(blackboard, 'mouseup');
 
 const obsmousemove$: Observable<MouseCoordenates> = mousemove$.pipe(
-  map(({ x, y }) => ({ x, y, point: `${x}-${y}` } as MouseCoordenates)),
+  map(({ x, y }) => ({ x, y, point: `${x}-${y}` })),
   distinctUntilKeyChanged('point'),
   takeUntil(mouseup$)
 );

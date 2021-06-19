@@ -1,9 +1,21 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { generateColor } from '../canvas/color-utils';
+import { CanvasInfo } from '../models/canvas-info';
 
-const id: string = uuidv4();
-const color: string = generateColor();
-const lineWidth: number = 4;
+const id = uuidv4();
+const color = generateColor();
+const lineWidth = 4;
+const canvasInfo = {} as CanvasInfo;
 
-export { id, color, lineWidth };
+const initCanvasInfo = () => {
+  canvasInfo.id = id;
+  canvasInfo.color = color;
+  canvasInfo.lineWidth = lineWidth;
+};
+
+const getCanvasInfo = () => {
+  return canvasInfo;
+};
+
+export { id, color, lineWidth, initCanvasInfo, getCanvasInfo };

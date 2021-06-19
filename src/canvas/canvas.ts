@@ -1,33 +1,25 @@
-const divContent: HTMLDivElement = document.getElementById(
-  'content'
-) as HTMLDivElement;
+const divContent = document.getElementById('content') as HTMLDivElement;
 
-const blackboard: HTMLCanvasElement = document.createElement(
-  'canvas'
-) as HTMLCanvasElement;
+const blackboard = document.createElement('canvas') as HTMLCanvasElement;
 divContent.appendChild(blackboard);
 
-const context: CanvasRenderingContext2D = blackboard.getContext(
-  '2d'
-) as CanvasRenderingContext2D;
+const context = blackboard.getContext('2d') as CanvasRenderingContext2D;
 
-const initCanvas = (id: string, color: string, lineWidth: number): void => {
+const initCanvas = (id: string, lineWidth: number): void => {
   setPropertiesCanvas(id);
-  setPropertiesContext(color, lineWidth);
+  setPropertiesContext();
 };
 
-const setPropertiesCanvas = (id: string) => {
+const setPropertiesCanvas = (id: string): void => {
   blackboard.setAttribute('id', `blackboard-${id}`);
   blackboard.setAttribute('class', 'full-height');
   blackboard.width = blackboard.clientWidth;
   blackboard.height = blackboard.clientHeight;
 };
 
-const setPropertiesContext = (color: string, lineWidth: number) => {
+const setPropertiesContext = (): void => {
   context.lineCap = 'round';
   context.lineJoin = 'round';
-  context.strokeStyle = color;
-  context.lineWidth = lineWidth;
 };
 
 const initialPoint = (x: number, y: number): void => {
@@ -35,7 +27,14 @@ const initialPoint = (x: number, y: number): void => {
   context.moveTo(x, y);
 };
 
-const drawLine = (x: number, y: number): void => {
+const drawLine = (
+  x: number,
+  y: number,
+  color: string,
+  lineWidth: number
+): void => {
+  context.strokeStyle = color;
+  context.lineWidth = lineWidth;
   context.lineTo(x, y);
   context.stroke();
 };

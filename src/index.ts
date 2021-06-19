@@ -3,27 +3,35 @@ import {
   connectSocket,
   drawMyBlackBoardInitialPoint,
   drawMyBlackBoard,
+  listenSocket,
 } from './socket/socket';
 import { initCanvas, initialPoint, drawLine } from './canvas/canvas';
-import { id, color, lineWidth } from './utils/canvas-properties';
-import { CanvasInfo, CoordinatePoint } from './models/canvas-info';
+import {
+  id,
+  color,
+  lineWidth,
+  initCanvasInfo,
+  getCanvasInfo,
+} from './utils/canvas-properties';
+import { CoordinatePoint } from './models/coordinate-point';
 
-initCanvas(id, color, lineWidth);
+initCanvas(id, lineWidth);
+initCanvasInfo();
 connectSocket();
 
-const canvasInfo: CanvasInfo = {} as CanvasInfo;
-canvasInfo.id = id;
-canvasInfo.color = color;
+listenSocket();
 
 mousedown$.subscribe(({ x, y }) => {
-  canvasInfo.lastPoint = { x, y } as CoordinatePoint;
   initialPoint(x, y);
-  drawMyBlackBoardInitialPoint(canvasInfo);
+
+  getCanvasInfo().lastPoint = { x, y } as CoordinatePoint;
+  drawMyBlackBoardInitialPoint(getCanvasInfo());
 
   obsmousemove$.subscribe(({ x, y }) => {
-    canvasInfo.lastPoint = { x, y } as CoordinatePoint;
-    drawLine(x, y);
-    drawMyBlackBoard(canvasInfo);
+    drawLine(x, y, color, lineWidth);
+
+    getCanvasInfo().lastPoint = { x, y } as CoordinatePoint;
+    drawMyBlackBoard(getCanvasInfo());
 
     console.log(x, y);
   });
