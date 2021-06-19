@@ -1,3 +1,5 @@
+import { color, lineWidth, initCanvasInfo } from '../utils/canvas-properties';
+
 const divContent = document.getElementById('content') as HTMLDivElement;
 
 const blackboard = document.createElement('canvas') as HTMLCanvasElement;
@@ -5,9 +7,10 @@ divContent.appendChild(blackboard);
 
 const context = blackboard.getContext('2d') as CanvasRenderingContext2D;
 
-const initCanvas = (id: string, lineWidth: number): void => {
+const initCanvas = (id: string): void => {
   setPropertiesCanvas(id);
   setPropertiesContext();
+  initCanvasInfo();
 };
 
 const setPropertiesCanvas = (id: string): void => {
@@ -30,11 +33,11 @@ const initialPoint = (x: number, y: number): void => {
 const drawLine = (
   x: number,
   y: number,
-  color: string,
-  lineWidth: number
+  brushColor: string = color,
+  brushLineWidth: number = lineWidth
 ): void => {
-  context.strokeStyle = color;
-  context.lineWidth = lineWidth;
+  context.strokeStyle = brushColor;
+  context.lineWidth = brushLineWidth;
   context.lineTo(x, y);
   context.stroke();
 };

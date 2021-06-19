@@ -14,8 +14,4 @@ const initCanvasInfo = () => {
   canvasInfo.lineWidth = lineWidth;
 };
 
-const getCanvasInfo = () => {
-  return canvasInfo;
-};
-
-export { id, color, lineWidth, initCanvasInfo, getCanvasInfo };
+export { id, color, lineWidth, canvasInfo, initCanvasInfo };

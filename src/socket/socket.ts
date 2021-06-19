@@ -1,5 +1,5 @@
-import openSocket, { io, Socket } from 'socket.io-client';
-import { initCanvas, initialPoint, drawLine } from '../canvas/canvas';
+import openSocket, { Socket } from 'socket.io-client';
+import { initialPoint, drawLine } from '../canvas/canvas';
 import { CanvasInfo } from '../models/canvas-info';
 import { id } from '../utils/canvas-properties';
 
@@ -34,16 +34,13 @@ const listenDrawOnClient = () => {
     'drawOnClient',
     (canvasInfo: CanvasInfo, isInitialPoint: boolean) => {
       if (canvasInfo.id !== id) {
-        // TODO Crear canvas o obtener el del id
+        const { x, y } = canvasInfo.lastPoint;
+
+        // TODO Crear canvas o obtener el del id correspondiente
         if (isInitialPoint) {
-          initialPoint(canvasInfo.lastPoint.x, canvasInfo.lastPoint.y);
+          initialPoint(x, y);
         } else {
-          drawLine(
-            canvasInfo.lastPoint.x,
-            canvasInfo.lastPoint.y,
-            canvasInfo.color,
-            canvasInfo.lineWidth
-          );
+          drawLine(x, y, canvasInfo.color, canvasInfo.lineWidth);
         }
       }
     }

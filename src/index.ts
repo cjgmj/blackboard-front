@@ -6,33 +6,24 @@ import {
   listenSocket,
 } from './socket/socket';
 import { initCanvas, initialPoint, drawLine } from './canvas/canvas';
-import {
-  id,
-  color,
-  lineWidth,
-  initCanvasInfo,
-  getCanvasInfo,
-} from './utils/canvas-properties';
-import { CoordinatePoint } from './models/coordinate-point';
+import { id, canvasInfo } from './utils/canvas-properties';
 
-initCanvas(id, lineWidth);
-initCanvasInfo();
+initCanvas(id);
 connectSocket();
 
 listenSocket();
 
+// TODO controlar que si se sale de la pantalla se corte el flujo
 mousedown$.subscribe(({ x, y }) => {
   initialPoint(x, y);
 
-  getCanvasInfo().lastPoint = { x, y } as CoordinatePoint;
-  drawMyBlackBoardInitialPoint(getCanvasInfo());
+  canvasInfo.lastPoint = { x, y };
+  drawMyBlackBoardInitialPoint(canvasInfo);
 
   obsmousemove$.subscribe(({ x, y }) => {
-    drawLine(x, y, color, lineWidth);
+    drawLine(x, y);
 
-    getCanvasInfo().lastPoint = { x, y } as CoordinatePoint;
-    drawMyBlackBoard(getCanvasInfo());
-
-    console.log(x, y);
+    canvasInfo.lastPoint = { x, y };
+    drawMyBlackBoard(canvasInfo);
   });
 });
