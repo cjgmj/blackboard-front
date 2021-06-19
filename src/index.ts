@@ -5,7 +5,12 @@ import {
   drawMyBlackBoard,
   listenSocket,
 } from './socket/socket';
-import { initCanvas, initialPoint, drawLine } from './canvas/canvas';
+import {
+  initCanvas,
+  initialPoint,
+  drawLine,
+  transformCoordenates,
+} from './canvas/canvas';
 import { id, canvasInfo } from './utils/canvas-properties';
 
 initCanvas(id);
@@ -15,15 +20,19 @@ listenSocket();
 
 // TODO controlar que si se sale de la pantalla se corte el flujo
 mousedown$.subscribe(({ x, y }) => {
-  initialPoint(x, y);
+  const { x: pointX, y: pointY } = transformCoordenates(x, y);
 
-  canvasInfo.lastPoint = { x, y };
+  initialPoint(pointX, pointY);
+
+  canvasInfo.lastPoint = { x: pointX, y: pointY };
   drawMyBlackBoardInitialPoint(canvasInfo);
 
   obsmousemove$.subscribe(({ x, y }) => {
-    drawLine(x, y);
+    const { x: pointX, y: pointY } = transformCoordenates(x, y);
 
-    canvasInfo.lastPoint = { x, y };
+    drawLine(pointX, pointY);
+
+    canvasInfo.lastPoint = { x: pointX, y: pointY };
     drawMyBlackBoard(canvasInfo);
   });
 });

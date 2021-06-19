@@ -3,7 +3,6 @@ import { color, lineWidth, initCanvasInfo } from '../utils/canvas-properties';
 const divContent = document.getElementById('content') as HTMLDivElement;
 
 const blackboard = document.createElement('canvas') as HTMLCanvasElement;
-divContent.appendChild(blackboard);
 
 const context = blackboard.getContext('2d') as CanvasRenderingContext2D;
 
@@ -15,9 +14,10 @@ const initCanvas = (id: string): void => {
 
 const setPropertiesCanvas = (id: string): void => {
   blackboard.setAttribute('id', `blackboard-${id}`);
-  blackboard.setAttribute('class', 'full-height');
-  blackboard.width = blackboard.clientWidth;
-  blackboard.height = blackboard.clientHeight;
+  blackboard.setAttribute('class', 'canvas');
+  blackboard.setAttribute('width', '800');
+  blackboard.setAttribute('height', '600');
+  divContent.appendChild(blackboard);
 };
 
 const setPropertiesContext = (): void => {
@@ -42,4 +42,8 @@ const drawLine = (
   context.stroke();
 };
 
-export { blackboard, initCanvas, initialPoint, drawLine };
+const transformCoordenates = (x: number, y: number) => {
+  return { x: x - blackboard.offsetLeft, y: y - blackboard.offsetTop };
+};
+
+export { blackboard, initCanvas, initialPoint, drawLine, transformCoordenates };

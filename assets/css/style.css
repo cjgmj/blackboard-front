@@ -4,12 +4,19 @@
   left: 0;
   min-width: 100%;
   min-height: 100%;
+  background-image: linear-gradient(to bottom right, #212328, #323940, #212328);
 }
 
-.full-height {
+.canvas {
+  padding: 0;
+  margin: auto;
+  display: block;
+  width: 800px;
+  height: 600px;
   position: fixed;
   top: 0;
+  bottom: 0;
   left: 0;
-  min-width: 100%;
-  min-height: 100%;
+  right: 0;
+  background-color: #fff;
 }
