@@ -20,7 +20,7 @@ listenSocket();
 
 // TODO controlar que si se sale de la pantalla se corte el flujo
 mousedown$.subscribe(({ x, y }) => {
-  const { x: canvasX, y: canvasY } = mapCoordenatesToCanvas(x, y);
+  const { canvasX, canvasY } = mapCoordenatesToCanvas(x, y);
 
   initialPoint(canvasX, canvasY);
 
@@ -28,7 +28,7 @@ mousedown$.subscribe(({ x, y }) => {
   drawMyBlackBoardInitialPoint(canvasInfo);
 
   obsmousemove$.subscribe(({ x, y }) => {
-    const { x: canvasX, y: canvasY } = mapCoordenatesToCanvas(x, y);
+    const { canvasX, canvasY } = mapCoordenatesToCanvas(x, y);
 
     drawLine(canvasX, canvasY);
 

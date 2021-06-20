@@ -43,7 +43,10 @@ const drawLine = (
 };
 
 const mapCoordenatesToCanvas = (x: number, y: number) => {
-  return { x: x - blackboard.offsetLeft, y: y - blackboard.offsetTop };
+  return {
+    canvasX: x - blackboard.offsetLeft,
+    canvasY: y - blackboard.offsetTop,
+  };
 };
 
 export {
