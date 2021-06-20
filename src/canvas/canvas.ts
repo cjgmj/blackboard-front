@@ -42,8 +42,14 @@ const drawLine = (
   context.stroke();
 };
 
-const transformCoordenates = (x: number, y: number) => {
+const mapCoordenatesToCanvas = (x: number, y: number) => {
   return { x: x - blackboard.offsetLeft, y: y - blackboard.offsetTop };
 };
 
-export { blackboard, initCanvas, initialPoint, drawLine, transformCoordenates };
+export {
+  blackboard,
+  initCanvas,
+  initialPoint,
+  drawLine,
+  mapCoordenatesToCanvas,
+};

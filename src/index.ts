@@ -9,7 +9,7 @@ import {
   initCanvas,
   initialPoint,
   drawLine,
-  transformCoordenates,
+  mapCoordenatesToCanvas,
 } from './canvas/canvas';
 import { id, canvasInfo } from './utils/canvas-properties';
 
@@ -20,19 +20,19 @@ listenSocket();
 
 // TODO controlar que si se sale de la pantalla se corte el flujo
 mousedown$.subscribe(({ x, y }) => {
-  const { x: pointX, y: pointY } = transformCoordenates(x, y);
+  const { x: canvasX, y: canvasY } = mapCoordenatesToCanvas(x, y);
 
-  initialPoint(pointX, pointY);
+  initialPoint(canvasX, canvasY);
 
-  canvasInfo.lastPoint = { x: pointX, y: pointY };
+  canvasInfo.lastPoint = { x: canvasX, y: canvasY };
   drawMyBlackBoardInitialPoint(canvasInfo);
 
   obsmousemove$.subscribe(({ x, y }) => {
-    const { x: pointX, y: pointY } = transformCoordenates(x, y);
+    const { x: canvasX, y: canvasY } = mapCoordenatesToCanvas(x, y);
 
-    drawLine(pointX, pointY);
+    drawLine(canvasX, canvasY);
 
-    canvasInfo.lastPoint = { x: pointX, y: pointY };
+    canvasInfo.lastPoint = { x: canvasX, y: canvasY };
     drawMyBlackBoard(canvasInfo);
   });
 });
