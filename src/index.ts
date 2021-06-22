@@ -1,9 +1,8 @@
 import { mousedown$, obsmousemove$ } from './rxjs/events-rx';
 import {
-  connectSocket,
-  drawMyBlackBoardInitialPoint,
-  drawMyBlackBoard,
-  listenSocket,
+  connectAndListenSocket,
+  emitDrawMyBlackboardInitialPoint,
+  emitDrawMyBlackboard,
 } from './socket/socket';
 import {
   initCanvas,
@@ -14,9 +13,7 @@ import {
 import { id, canvasInfo } from './utils/canvas-properties';
 
 initCanvas(id);
-connectSocket();
-
-listenSocket();
+connectAndListenSocket();
 
 // TODO controlar que si se sale de la pantalla se corte el flujo
 mousedown$.subscribe(({ x, y }) => {
@@ -25,7 +22,7 @@ mousedown$.subscribe(({ x, y }) => {
   initialPoint(canvasX, canvasY);
 
   canvasInfo.lastPoint = { x: canvasX, y: canvasY };
-  drawMyBlackBoardInitialPoint(canvasInfo);
+  emitDrawMyBlackboardInitialPoint(canvasInfo);
 
   obsmousemove$.subscribe(({ x, y }) => {
     const { canvasX, canvasY } = mapCoordenatesToCanvas(x, y);
@@ -33,6 +30,6 @@ mousedown$.subscribe(({ x, y }) => {
     drawLine(canvasX, canvasY);
 
     canvasInfo.lastPoint = { x: canvasX, y: canvasY };
-    drawMyBlackBoard(canvasInfo);
+    emitDrawMyBlackboard(canvasInfo);
   });
 });

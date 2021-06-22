@@ -1,28 +1,24 @@
+import {
+  createCanvas,
+  getCanvasContext,
+  setCanvasProperties,
+} from './canvas-utils';
 import { color, lineWidth, initCanvasInfo } from '../utils/canvas-properties';
 
 const divContent = document.getElementById('content') as HTMLDivElement;
 
-const blackboard = document.createElement('canvas') as HTMLCanvasElement;
+const blackboard = createCanvas();
 
-const context = blackboard.getContext('2d') as CanvasRenderingContext2D;
+const context = getCanvasContext(blackboard);
 
 const initCanvas = (id: string): void => {
-  setPropertiesCanvas(id);
-  setPropertiesContext();
+  setCanvasProperties(blackboard, id, 'canvas my-canvas');
+  addCanvasToContent();
   initCanvasInfo();
 };
 
-const setPropertiesCanvas = (id: string): void => {
-  blackboard.setAttribute('id', `blackboard-${id}`);
-  blackboard.setAttribute('class', 'canvas');
-  blackboard.setAttribute('width', '800');
-  blackboard.setAttribute('height', '600');
+const addCanvasToContent = (): void => {
   divContent.appendChild(blackboard);
-};
-
-const setPropertiesContext = (): void => {
-  context.lineCap = 'round';
-  context.lineJoin = 'round';
 };
 
 const initialPoint = (x: number, y: number): void => {

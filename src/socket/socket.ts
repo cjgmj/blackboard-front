@@ -1,32 +1,47 @@
 import openSocket, { Socket } from 'socket.io-client';
-import { initialPoint, drawLine } from '../canvas/canvas';
+import {
+  initialPoint,
+  drawLine,
+  mapCoordenatesToCanvas,
+} from '../canvas/canvas';
 import { CanvasInfo } from '../types/canvas-info';
+import { CanvasClient } from '../types/canvas-client';
 import { id } from '../utils/canvas-properties';
 
 let socket: Socket;
 
-const connectSocket = () => {
+const connectAndListenSocket = () => {
   socket = openSocket('http://localhost:3000');
   socket.on('connect', () => {
     console.log('Conectado al servidor');
+
+    listenSocket();
   });
 };
 
-const drawMyBlackBoardInitialPoint = (canvasInfo: CanvasInfo) => {
-  draw(canvasInfo, true);
-};
-
-const drawMyBlackBoard = (canvasInfo: CanvasInfo) => {
-  draw(canvasInfo, false);
-};
-
-const draw = (canvasInfo: CanvasInfo, initialPoint: boolean) => {
-  socket.emit('drawMyBlackBoard', canvasInfo, initialPoint);
-};
-
 const listenSocket = () => {
+  drawSessionBlackboard();
   listenDrawOnClient();
   disconnection();
+};
+
+const drawSessionBlackboard = () => {
+  socket.once('drawSessionBlackboard', (canvasList: CanvasClient[]) => {
+    console.log(canvasList);
+    canvasList.forEach((canvasClient) => {
+      const { color, lineWidth, brushPaths } = canvasClient;
+
+      brushPaths.forEach((brushPath) => {
+        const { initialPoint: initPoint, points } = brushPath;
+
+        initialPoint(initPoint.x, initPoint.y);
+
+        points.forEach((point) => {
+          drawLine(point.x, point.y, color, lineWidth);
+        });
+      });
+    });
+  });
 };
 
 const listenDrawOnClient = () => {
@@ -53,9 +68,20 @@ const disconnection = () => {
   });
 };
 
+const emitDrawMyBlackboardInitialPoint = (canvasInfo: CanvasInfo) => {
+  emitDraw(canvasInfo, true);
+};
+
+const emitDrawMyBlackboard = (canvasInfo: CanvasInfo) => {
+  emitDraw(canvasInfo, false);
+};
+
+const emitDraw = (canvasInfo: CanvasInfo, initialPoint: boolean) => {
+  socket.emit('drawMyBlackboard', canvasInfo, initialPoint);
+};
+
 export {
-  connectSocket,
-  drawMyBlackBoardInitialPoint,
-  drawMyBlackBoard,
-  listenSocket,
+  connectAndListenSocket,
+  emitDrawMyBlackboardInitialPoint,
+  emitDrawMyBlackboard,
 };
