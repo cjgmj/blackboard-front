@@ -1,33 +1,28 @@
 import openSocket, { Socket } from 'socket.io-client';
-import {
-  initialPoint,
-  drawLine,
-  mapCoordenatesToCanvas,
-} from '../canvas/canvas';
+
+import { initialPoint, drawLine } from '../canvas/canvas';
+
+import { id, canvasInfo } from '../utils/canvas-properties';
+
 import { CanvasInfo } from '../types/canvas-info';
 import { CanvasClient } from '../types/canvas-client';
-import { id } from '../utils/canvas-properties';
 
 let socket: Socket;
 
 const connectAndListenSocket = () => {
   socket = openSocket('http://localhost:3000');
+
   socket.on('connect', () => {
     console.log('Conectado al servidor');
 
-    listenSocket();
+    onceDrawSessionBlackboard();
+    onListenDrawOnClient();
+    onDisconnect();
   });
 };
 
-const listenSocket = () => {
-  drawSessionBlackboard();
-  listenDrawOnClient();
-  disconnection();
-};
-
-const drawSessionBlackboard = () => {
+const onceDrawSessionBlackboard = () => {
   socket.once('drawSessionBlackboard', (canvasList: CanvasClient[]) => {
-    console.log(canvasList);
     canvasList.forEach((canvasClient) => {
       const { color, lineWidth, brushPaths } = canvasClient;
 
@@ -44,7 +39,7 @@ const drawSessionBlackboard = () => {
   });
 };
 
-const listenDrawOnClient = () => {
+const onListenDrawOnClient = () => {
   socket.on(
     'drawOnClient',
     (canvasInfo: CanvasInfo, isInitialPoint: boolean) => {
@@ -62,21 +57,22 @@ const listenDrawOnClient = () => {
   );
 };
 
-const disconnection = () => {
+const onDisconnect = () => {
   socket.on('disconnect', () => {
     console.log('Se perdió la conexión con el servidor');
   });
 };
 
-const emitDrawMyBlackboardInitialPoint = (canvasInfo: CanvasInfo) => {
-  emitDraw(canvasInfo, true);
+const emitDrawMyBlackboardInitialPoint = (x: number, y: number) => {
+  emitDraw(x, y, true);
 };
 
-const emitDrawMyBlackboard = (canvasInfo: CanvasInfo) => {
-  emitDraw(canvasInfo, false);
+const emitDrawMyBlackboard = (x: number, y: number) => {
+  emitDraw(x, y, false);
 };
 
-const emitDraw = (canvasInfo: CanvasInfo, initialPoint: boolean) => {
+const emitDraw = (x: number, y: number, initialPoint: boolean) => {
+  canvasInfo.lastPoint = { x, y };
   socket.emit('drawMyBlackboard', canvasInfo, initialPoint);
 };
 

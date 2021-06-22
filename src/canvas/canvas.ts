@@ -1,24 +1,18 @@
 import {
-  createCanvas,
+  createCanvasAndSetProperties,
   getCanvasContext,
-  setCanvasProperties,
+  addCanvasToContent,
 } from './canvas-utils';
+
 import { color, lineWidth, initCanvasInfo } from '../utils/canvas-properties';
 
-const divContent = document.getElementById('content') as HTMLDivElement;
+const blackboard = createCanvasAndSetProperties('canvas my-canvas');
 
-const blackboard = createCanvas();
+const context = getCanvasContext();
 
-const context = getCanvasContext(blackboard);
-
-const initCanvas = (id: string): void => {
-  setCanvasProperties(blackboard, id, 'canvas my-canvas');
+const initCanvas = (): void => {
   addCanvasToContent();
   initCanvasInfo();
-};
-
-const addCanvasToContent = (): void => {
-  divContent.appendChild(blackboard);
 };
 
 const initialPoint = (x: number, y: number): void => {
@@ -38,17 +32,4 @@ const drawLine = (
   context.stroke();
 };
 
-const mapCoordenatesToCanvas = (x: number, y: number) => {
-  return {
-    canvasX: x - blackboard.offsetLeft,
-    canvasY: y - blackboard.offsetTop,
-  };
-};
-
-export {
-  blackboard,
-  initCanvas,
-  initialPoint,
-  drawLine,
-  mapCoordenatesToCanvas,
-};
+export { blackboard, initCanvas, initialPoint, drawLine };

@@ -4,32 +4,23 @@ import {
   emitDrawMyBlackboardInitialPoint,
   emitDrawMyBlackboard,
 } from './socket/socket';
-import {
-  initCanvas,
-  initialPoint,
-  drawLine,
-  mapCoordenatesToCanvas,
-} from './canvas/canvas';
-import { id, canvasInfo } from './utils/canvas-properties';
+import { initCanvas, initialPoint, drawLine } from './canvas/canvas';
+import { mapCoordenatesToCanvas } from './canvas/canvas-utils';
 
-initCanvas(id);
+initCanvas();
 connectAndListenSocket();
 
 // TODO controlar que si se sale de la pantalla se corte el flujo
 mousedown$.subscribe(({ x, y }) => {
   const { canvasX, canvasY } = mapCoordenatesToCanvas(x, y);
-
   initialPoint(canvasX, canvasY);
 
-  canvasInfo.lastPoint = { x: canvasX, y: canvasY };
-  emitDrawMyBlackboardInitialPoint(canvasInfo);
+  emitDrawMyBlackboardInitialPoint(canvasX, canvasY);
 
   obsmousemove$.subscribe(({ x, y }) => {
     const { canvasX, canvasY } = mapCoordenatesToCanvas(x, y);
-
     drawLine(canvasX, canvasY);
 
-    canvasInfo.lastPoint = { x: canvasX, y: canvasY };
-    emitDrawMyBlackboard(canvasInfo);
+    emitDrawMyBlackboard(canvasX, canvasY);
   });
 });
